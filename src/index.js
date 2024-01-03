@@ -1,8 +1,13 @@
 import dotenv from 'dotenv'
 import { dbConnect } from '../Database/db.config.js'
  import {server} from './app.js'
+ 
 
- dotenv.config();
+ dotenv.config(
+  {
+    path: './.env'
+  }
+ );
  dbConnect()
   .then(() => {
     server.listen(3000, () => {
@@ -12,4 +17,5 @@ import { dbConnect } from '../Database/db.config.js'
   .catch((error) => {
     console.log(error + "error in index");
   });
+ 
  

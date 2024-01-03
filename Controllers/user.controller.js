@@ -2,11 +2,6 @@ import { User } from "../Models/user.model.js";
 import { asyncHandler } from "../Utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../Utils/cloudinary.js"; 
 
-
-const userController = asyncHandler((req,res)=>{
-    res.status(200).json({message:"sab sahi chal rha hai"})
-});
-
 const registerUser = asyncHandler(async (req,res)=>{
     const {userName,email,password,fullName} = req.body;
 
@@ -30,7 +25,7 @@ if(!avatarLocalPath)
 
 const avatar = await uploadOnCloudinary(avatarLocalPath)
 const coverImage = await uploadOnCloudinary(coverImageLocalPath)
-
+console.log("avatar url",avatar.url)
 const user = await User.create({
     userName,
     email,
@@ -49,7 +44,7 @@ if(!validUser)
 }
 
 return res.status(200).json(validUser)
-
+ 
 
 
 
@@ -59,4 +54,4 @@ return res.status(200).json(validUser)
 
  
 
-export {userController,registerUser}
+export { registerUser}
