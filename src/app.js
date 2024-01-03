@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 server.use(cors({origin : process.env.CORS_ORIGIN}))
 server.use(cookieParser())
 server.use(express.json())
+
 server.use("/api/v1/users",router);
 
 export {server}

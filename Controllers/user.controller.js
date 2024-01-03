@@ -77,7 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!isPasswordCorrect) {
     return res.status(400).json({ message: "Invalid Password" });
   }
-  const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
+  const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(
     user._id
   );
 
@@ -96,4 +96,27 @@ const loginUser = asyncHandler(async (req, res) => {
     .json({ user: loggedInUser, refreshToken, accessToken });
 });
 
-export { registerUser ,loginUser};
+const logoutUser = asyncHandler(async(req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                refreshToken: undefined
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options) 
+})
+export { registerUser ,loginUser , logoutUser};
